@@ -1,22 +1,36 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rest_api/models/note_for_listing.dart';
+import 'package:flutter_rest_api/services/notes_service.dart';
 import 'package:flutter_rest_api/views/note_delete.dart';
 import 'package:flutter_rest_api/views/note_modify.dart';
+import 'package:get_it/get_it.dart';
 
-class NoteList extends StatelessWidget {
+class NoteList extends StatefulWidget {
 
-  final notes = [
-    new NoteForListing(
-      noteID: "1",
-      createdDateTime: DateTime.now(),
-      latestEditedDAteTime: DateTime.now(),
-      noteTitile: "Note 1"
-    )
-  ];
+  @override
+  _NoteListState createState() => _NoteListState();
+    
+}
+
+
+class _NoteListState extends State<NoteList> {
+
+  //final service = NotesService();   // if have multiple pages need to have implement every pages that the service need
+  NotesService get service => GetIt.I<NotesService>();
+
+  //create an empty List
+  List<NoteForListing> notes = [];
 
   String formatDateTime(DateTime dateTime) {    //Helper function for format Date Time
     return  '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+  }
+
+  //This is the method call when we open our stateful page
+  @override
+  void initState() {
+    notes = service.getNotesList();
+    super.initState();
   }
 
   @override

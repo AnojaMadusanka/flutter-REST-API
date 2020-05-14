@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rest_api/services/notes_service.dart';
 import 'package:flutter_rest_api/views/note_list.dart';
+import 'package:get_it/get_it.dart';
 
-void main() => runApp(MyApp());
+/*Service locator with get_it package
+  use registerLazySingleton because don't need more than one instance of the notes service
+*/
+void setupLocator() {
+  GetIt.instance.registerLazySingleton(() => NotesService());
+}
+
+void main() {
+  setupLocator();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
